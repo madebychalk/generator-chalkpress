@@ -1,0 +1,29 @@
+[data-icon] {
+  &:before {
+    display: inline-block;
+    font-family: $icon-font; 
+    font-size: .85em;
+    font-weight: normal !important;
+    line-height: 1em !important;
+    padding-right: .5em;
+    speak: none; 
+    text-indent: 0;
+    text-transform: none !important;
+    vertical-align: text-top;
+    -webkit-font-smoothing: antialiased;
+    @include text-shadow(none);
+  }
+
+  &.standalone:before {
+    font-size: 1.4em;
+    vertical-align: middle;
+  }
+}
+
+
+@each $icon in $icons {
+  [data-icon="#{nth($icon, 1)}"]:before {
+    content: "#{nth($icon, 2)}";
+  }
+}
+

@@ -1,0 +1,30 @@
+{
+  "name": "<%= _.slugify(blogName) %>-web",
+  "version": "0.0.1",
+  "dependencies": {
+    "fastclick": "~0.6.7",
+    "foundation": "~4.2.3",
+    "jquery": "~1.10.2",
+    "modernizr": "~2.6.2",
+    "requirejs": "~2.1.8"
+
+  },
+  "exportsOverride": {
+    "fastclick": {
+      "js": "lib/fastclick.js"
+    },
+    "foundation": {
+      "js": "js/foundation/*.js",
+      "scss": "scss/**/*.scss"
+    },
+    "jquery": {
+      "js": "jquery.js"
+    },
+    "modernizr": {
+      "js": "modernizr.js"
+    },
+    "requirejs": {
+      "js": "require.js"
+    }
+  }
+}
