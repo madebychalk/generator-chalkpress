@@ -12,6 +12,7 @@ class EnvironmentConfig {
     'DB_CHARSET'              => 'utf8',
     'DB_COLLATE'              => '',
     'WP_HTTP_BLOCK_EXTERNAL'  => true,
+    'DISABLE_WP_CRON'         => true,
     'WPLANG'                  => '',
     'WP_DEBUG'                => false,
     'AUTH_KEY'                => '],(,!h!*eE`--hd&nbclKZ/NWFfjryb`#G&o}++9Db0G6!|EFe=0?(8!GXEBFe~|',
@@ -41,6 +42,8 @@ class EnvironmentConfig {
         'WP_HOME'         => 'http://' . $_SERVER['SERVER_NAME'] . ':9000',
         'WP_CONTENT_DIR'  => dirname( dirname( __FILE__ ) ) . '/content',
         'WP_CONTENT_URL'  => 'http://' . $_SERVER['SERVER_NAME'] . ':9000/content',
+        'WP_PLUGIN_DIR '  => dirname( dirname(__FILE__) ) . ':9000/content/plugins',
+        'WP_PLUGIN_URL '  => 'http://' . $_SERVER['SERVER_NAME'] . ':9000/content/plugins',
         'DB_NAME'         => '',
         'DB_USER'         => '',
         'DB_PASSWORD'     => '',
@@ -57,6 +60,8 @@ class EnvironmentConfig {
         'WP_HOME'         => 'http://' . $_SERVER['SERVER_NAME'],
         'WP_CONTENT_DIR'  => dirname( dirname(__FILE__) ) . '/content',
         'WP_CONTENT_URL'  => 'http://' . $_SERVER['SERVER_NAME'] . '/content',
+        'WP_PLUGIN_DIR '  => dirname( dirname(__FILE__) ) . '/content/plugins',
+        'WP_PLUGIN_URL '  => 'http://' . $_SERVER['SERVER_NAME'] . '/content/plugins',
         'DB_NAME'         => '',
         'DB_USER'         => '',
         'DB_PASSWORD'     => '',
@@ -69,10 +74,17 @@ class EnvironmentConfig {
        * Settings used in production
        */
       'example.com' => array(
-        'DB_NAME'     => '',
-        'DB_USER'     => '',
-        'DB_PASSWORD' => '',
-        'DB_HOST'     => ''
+        'WP_SITEURL'      => 'http://' . $_SERVER['SERVER_NAME'] . '/wordpress',
+        'WP_HOME'         => 'http://' . $_SERVER['SERVER_NAME'],
+        'WP_CONTENT_DIR'  => dirname( dirname(__FILE__) ) . '/content',
+        'WP_CONTENT_URL'  => 'http://' . $_SERVER['SERVER_NAME'] . '/content',
+        'WP_PLUGIN_DIR '  => dirname( dirname(__FILE__) ) . '/content/plugins',
+        'WP_PLUGIN_URL '  => 'http://' . $_SERVER['SERVER_NAME'] . '/content/plugins',
+        'DB_NAME'         => '',
+        'DB_USER'         => '',
+        'DB_PASSWORD'     => '',
+        'DB_HOST'         => '',
+        'WP_DEBUG'        => true
       )
     );
   }

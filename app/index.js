@@ -23,16 +23,22 @@ util.inherits(ChalkpressGenerator, yeoman.generators.Base);
 ChalkpressGenerator.prototype.askFor = function askFor() {
   var done = this.async();
 
-  // have Yeoman greet the user.
   console.log(this.yeoman);
 
-  var prompts = [{
-    name: 'blogName',
-    message: 'What do you want to call the blog?'
-  }];
+  var prompts = [
+    {
+      name: 'blogName',
+      message: 'What do you want to call the blog?'
+    },{
+      name: 'wordpressVersion',
+      message: 'What version of Wordpress would you like?',
+      default: '3.6.1'
+    }
+  ];
 
   this.prompt(prompts, function (props) {
     this.blogName = props.blogName;
+    this.wordpressVersion = props.wordpressVersion;
 
     done();
   }.bind(this));
@@ -83,23 +89,26 @@ ChalkpressGenerator.prototype.addWorpressSubmodule = function() {
   var done = this.async();
 
   console.log('Initializing Wordpress submodule. This may take a minute.');
-  spawn('git', ['submodule', 'add', 'git://github.com/WordPress/WordPress.git', 'wordpress'])
+  var git = spawn('git', ['submodule', 'add', 'git://github.com/WordPress/WordPress.git', 'wordpress'])
     .on('close', function(){
       process.chdir('wordpress');
-      console.log('Checking out 3.5.2 branch of Wordpress');
+      console.log('Checking out %s branch of Wordpress', this.wordpressVersion);
 
-      spawn('git', ['checkout', '3.5.2']).on('close', function() {
+      spawn('git', ['checkout', this.wordpressVersion]).on('close', function() {
         process.chdir('../');
         done();
       });
     });
+  git.stdout.on('data', function(chunk) {
+    console.log(chunk.toString());
+  });
 }
 
 ChalkpressGenerator.prototype.addCustomMetaBoxSubmodule = function() {
   var done = this.async();
 
   console.log('Initializing Metabox submodule. This may take a minute.');
-  spawn('git', ['submodule', 'add', 'git://github.com:jaredatch/Custom-Metaboxes-and-Fields-for-WordPress.git', 'content/themes/' + _.str.slugify(this.blogName) + '/library/metabox'])
+  spawn('git', ['submodule', 'add', 'git://github.com/jaredatch/Custom-Metaboxes-and-Fields-for-WordPress.git', 'content/themes/' + _.str.slugify(this.blogName) + '/library/metabox'])
     .on('close', function() {
       console.log('Metabox in the house.');
       done();
@@ -110,7 +119,7 @@ ChalkpressGenerator.prototype.addChalkpressSubmodule = function() {
   var done = this.async();
 
   console.log('Initializing Chalkpress submodule. This may take a minute.');
-  spawn('git', ['submodule', 'add', 'git://github.com:madebychalk/Chalkpress.git', 'content/themes/' + _.str.slugify(this.blogName) + '/library/chalkpress'])
+  spawn('git', ['submodule', 'add', 'git://github.com/madebychalk/Chalkpress.git', 'content/themes/' + _.str.slugify(this.blogName) + '/library/chalkpress'])
     .on('close', function() {
       console.log('Chalkpress In Da House!');
       done();
