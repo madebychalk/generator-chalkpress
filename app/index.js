@@ -32,7 +32,7 @@ ChalkpressGenerator.prototype.askFor = function askFor() {
     },{
       name: 'wordpressVersion',
       message: 'What version of Wordpress would you like?',
-      default: '3.6.1'
+      default: '3.8.1'
     }
   ];
 
@@ -89,18 +89,29 @@ ChalkpressGenerator.prototype.addWorpressSubmodule = function() {
   var done = this.async();
 
   console.log('Initializing Wordpress submodule. This may take a minute.');
-  var git = spawn('git', ['submodule', 'add', 'git://github.com/WordPress/WordPress.git', 'wordpress'])
-    .on('close', function(){
+  var git = spawn('git', ['submodule', 'add', 'git://github.com/WordPress/WordPress.git', 'wordpress'],
+      { stdio: 'inherit' });
+
+
+  git.on('close', function(){
       process.chdir('wordpress');
       console.log('Checking out %s branch of Wordpress', this.wordpressVersion);
 
-      spawn('git', ['checkout', this.wordpressVersion]).on('close', function() {
+      var checkout = spawn('git', ['checkout', this.wordpressVersion])
+      
+      checkout.stdout.on('data', function(data) {
+        console.log(data);
+      });
+
+      checkout.on('close', function() {
         process.chdir('../');
         done();
       });
-    });
-  git.stdout.on('data', function(chunk) {
-    console.log(chunk.toString());
+
+  }.bind(this));
+
+  process.stdout.on('data', function(data) {
+    console.log(data);
   });
 }
 

@@ -145,6 +145,20 @@ module.exports = function(grunt) {
       }
     },
 
+    webfont: {
+      dev: {
+        src: '<%%= chalk.library %>/scss/icons/*.svg',
+        dest: '<%%= chalk.library %>/fonts',
+        destCss: '<%%= chalk.library %>/scss/library',
+        options: {
+          stylesheet: 'scss',
+          htmlDemo: false,
+          template: '<%%= chalk.library %>/scss/library/icons_template.css',
+          relativeFontPath: '<%%= chalk.library %>/fonts'
+        }
+      }
+    },
+
     modernizr: {
       devFile: "<%%= chalk.library %>/vendor/js/modernizr/modernizr.js",
       outputFile: "<%%= chalk.prodDir %>/library/js/modernizr.min.js",
@@ -203,6 +217,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('server', [
+    'webfont:dev',
     'compass:dev', 
     'connect:livereload', 
     'open', 
