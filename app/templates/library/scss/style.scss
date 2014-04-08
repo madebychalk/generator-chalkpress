@@ -3,15 +3,10 @@
 
 @import
   'library/base',
-  'scss/foundation/global',
-  'scss/foundation/visibility',
-  'scss/foundation/grid',
-  'scss/foundation/block-grid',
-  'scss/foundation/inline-lists';
-  /* Add More As you Need */
+  'foundation/scss/foundation/components/grid',
+  'foundation/scss/foundation/components/visibility';
 
 @import
-  'library/2x',
   'library/fonts',
   'library/icons',
-  'library/respond';
+  'library/mixins';

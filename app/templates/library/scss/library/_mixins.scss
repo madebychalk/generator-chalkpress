@@ -1,0 +1,16 @@
+@mixin image-2x($image, $width: 100%, $height: auto) {
+  $pieces: str-split($image, ".");
+
+  background-image: image-url($image);
+
+  @include retina {
+    background-image: image-url("#{nth($pieces, 1)}_@2x.#{nth($pieces, 2)}");
+    @include background-size($width $height);
+  }
+}
+
+@mixin respond-to($query) {
+  @media #{$query} {
+    @content;
+  }
+}

@@ -1,32 +1,58 @@
-$icons: facebook \E009, twitter \E001, linked-in \E002, google-plus \E003, hops \E010, malts \E011, location \E012, clock \E013, calendar \E014;
+@import 'foundation/scss/functions';
 
-$em-base: 16px;
-$body-font-color: #4b4b4b;
+$rem-base: 18px;
+$base-font-size: $rem-base;
+$base-line-height: 36px;
 
-$dark: #272727;
-$quiet: #737373;
-$light: #8e8e8e;
+
+$dark: #393536;
+$quiet: #707070;
+$contrast: #e0e0e0;
+$light: #f3f3f3;
+$inverse: #fff;
+
+$primary-color: #507d8e;
+$lighter-primary-color: #6e9daf;
+$darker-primary-color: #3b5b67;
+
+$secondary-color: #463749; 
+$lighter-secondary-color: #5b4e71;
+$darker-secondary-color: #463749;
+
+$tertiary-color: #6ba83a; // #6f9b40;
+
+$body-font-color: $dark;
+
 
 $serif: Georgia, Palatino, serif;
 $sans-serif: Helvetica, Arial, Verdana, sans-serif;
-$icon-font: "Chalk Icon Font";
 
-$body-font-family: $sans-serif;
+$emphasis-font-family: "Chalk Emphasis";
+$headline-font-family: "Chalk Headline";
+$content-font-family:  "Chalk Content";
+$subtle-font-family:   "Chalk Subtle";
 
-$global-shadow-size: 4px;
-$global-shadow-color: rgba(0,0,0, 0.75);
+$body-font-family: $content-font-family;
 
-$small-screen: 768px;
-$medium-screen: 1280px;
-$large-screen: 1440px;
+
+$header-font-sizes: 72px 30px 24px 18px 14px 12px;
+$mobile-header-font-sizes: 50px 24px 24px 14px 12px 12px;
+
+
+
+$title-bar-height: 60px;
+$title-bar-button-width: 60px;
+$max-desktop-navigation-width: 260px;
+
+$small-range: (481px, 640px);
+$medium-range: (641px, 768px);
+$large-range: (769px, 1024px);
+$xlarge-range: (1025px, 1440px);
+$xxlarge-range: (1441px);
 
 $screen: "only screen";
-$small: "only screen and (min-width: #{$small-screen})";
-$medium: "only screen and (min-width: #{$medium-screen})";
-$large: "only screen and (min-width: #{$large-screen})";
-
-$landscape: "only screen and (orientation: landscape)";
-$portrait: "only screen and (orientation: portrait)";
+$small-up: "#{$screen} and (min-width:#{lower-bound($small-range)})";
+$small-only: "#{$screen} and (min-width:#{lower-bound($small-range)}) and (max-width:#{upper-bound($small-range)})";
 
 $retina: "(min--moz-device-pixel-ratio: 1.3),
          (-o-min-device-pixel-ratio: 2.6/2),
@@ -34,8 +60,11 @@ $retina: "(min--moz-device-pixel-ratio: 1.3),
          (min-device-pixel-ratio: 1.3),
          (min-resolution: 1.3dppx)";
 
+$row-width: rem-calc(960);
+$column-gutter: rem-calc(10);
+$total-columns: 24;
+
 $no-spacing: 0;
 $tiny-spacing: 5px;
 $small-spacing: 10px;
 $medium-spacing: 20px;
-$large-spacing: 40px;

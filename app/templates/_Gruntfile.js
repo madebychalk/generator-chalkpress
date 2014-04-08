@@ -25,23 +25,18 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     chalk: chalkPressConfig, 
-    watch : {
-      compass : {
-        files : ['<%%= chalk.library %>/scss/**/*.scss'],
-        tasks : ['compass:dev']
+
+    concurrent: {
+      options: {
+        logConcurrentOutput: true
       },
+      dev: ['watch', 'compass:dev']
+    },
 
-      livereload: {
-        options: {
-          livereload: LIVERELOAD_PORT,
-          nospawn: true
-        },
-
-        files: [
-          '<%%= chalk.themeDir %>/**/*.php',
-          '<%%= chalk.library %>/css/**/*.css',
-          '<%%= chalk.library %>/scss/**/*.scss'
-        ]
+    watch : {
+      webfont : {
+        files : ['<%%= chalk.library %>/scss/icons/*.svg'],
+        tasks : ['webfont:dev']
       }
     },
 
@@ -84,6 +79,7 @@ module.exports = function(grunt) {
 
     compass : {
       options: {
+        require: 'sassy-strings',
         sassDir:        '<%%= chalk.library %>/scss',
         importPath:     '<%%= chalk.library %>/vendor', 
         relativeAssets: true
@@ -95,6 +91,7 @@ module.exports = function(grunt) {
           debugInfo: true,
           environment: 'development',
           outputStyle: 'expanded',
+          watch: true,
           javascriptsDir: '<%%= chalk.library %>/js',
           imagesDir:      '<%%= chalk.library %>/images', 
           fontsDir:       '<%%= chalk.library %>/fonts' 
@@ -154,7 +151,7 @@ module.exports = function(grunt) {
           stylesheet: 'scss',
           htmlDemo: false,
           template: '<%%= chalk.library %>/scss/library/icons_template.css',
-          relativeFontPath: '<%%= chalk.library %>/fonts'
+          relativeFontPath: '../fonts'
         }
       }
     },
@@ -181,6 +178,23 @@ module.exports = function(grunt) {
           src: [
             "**/*.{png,jpg,gif}"
           ]
+        }]
+      }
+    },
+
+    svgmin: {
+      options: {
+          plugins: [
+          ]
+      },
+      dist: {
+        files: [{
+          expand: true,
+          cwd: "<%%= chalk.library %>/images", 
+          dest: "<%%= chalk.prodDir %>/library/images",
+          src: [
+            '**/*.svg'
+          ],
         }]
       }
     },
@@ -217,17 +231,16 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('server', [
-    'webfont:dev',
-    'compass:dev', 
     'connect:livereload', 
     'open', 
-    'watch'
+    'concurrent:dev'
   ]);
 
   grunt.registerTask('build', [
     'clean:dist',
     'copy:dist',
     'imagemin:dist',
+    'svgmin:dist',
     'requirejs:dist',
     'modernizr',
     'compass:dist', 

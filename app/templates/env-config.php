@@ -15,6 +15,9 @@ class EnvironmentConfig {
     'DISABLE_WP_CRON'         => true,
     'WPLANG'                  => '',
     'WP_DEBUG'                => false,
+    'WP_POST_REVISIONS'       => false,
+    'SAVEQUERIES'             => false,
+    'ENVIRONMENT'             => 'production',
     'AUTH_KEY'                => '],(,!h!*eE`--hd&nbclKZ/NWFfjryb`#G&o}++9Db0G6!|EFe=0?(8!GXEBFe~|',
     'SECURE_AUTH_KEY'         => 'E=|9/nUUW!b+x)6[<SP4;ney|lFr2Y9-QXyh=SChM@ 4S8@x1T!k2[52x9oX.+MJ',
     'LOGGED_IN_KEY'           => 'SVOP,8IGCUH5:%f,{ocv,A<`|&7xfz=-!n)|Vg[^qj4v3C-=%g)j6Y>>-(AMrV]x',
@@ -48,7 +51,9 @@ class EnvironmentConfig {
         'DB_USER'         => '',
         'DB_PASSWORD'     => '',
         'DB_HOST'         => 'localhost',
-        'WP_DEBUG'        => true
+        'WP_DEBUG'        => true,
+        'SAVEQUERIES'     => true,
+        'ENVIRONMENT'     => 'development'
       ),
 
       /* Staging Environment
@@ -66,7 +71,8 @@ class EnvironmentConfig {
         'DB_USER'         => '',
         'DB_PASSWORD'     => '',
         'DB_HOST'         => '',
-        'WP_DEBUG'        => true
+        'WP_DEBUG'        => true,
+        'ENVIRONMENT'     => 'staging'
       ),
 
       /* Production Environment
@@ -83,8 +89,7 @@ class EnvironmentConfig {
         'DB_NAME'         => '',
         'DB_USER'         => '',
         'DB_PASSWORD'     => '',
-        'DB_HOST'         => '',
-        'WP_DEBUG'        => true
+        'DB_HOST'         => ''
       )
     );
   }

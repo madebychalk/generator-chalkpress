@@ -1,11 +1,12 @@
 'use strict';
-var util = require('util');
-var path = require('path');
-var _    = require('lodash');
+var util  = require('util'),
+    path  = require('path'),
+    chalk = require('chalk'),
+    _     = require('lodash'),
+    spawn = require('child_process').spawn,
+    yeoman = require('yeoman-generator');
+
     _.str = require('underscore.string');
-  
-var spawn = require('child_process').spawn;
-var yeoman = require('yeoman-generator');
 
 
 var ChalkpressGenerator = module.exports = function ChalkpressGenerator(args, options, config) {
@@ -23,7 +24,6 @@ util.inherits(ChalkpressGenerator, yeoman.generators.Base);
 ChalkpressGenerator.prototype.askFor = function askFor() {
   var done = this.async();
 
-  console.log(this.yeoman);
 
   var prompts = [
     {

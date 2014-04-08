@@ -34,5 +34,14 @@
 
     <?php wp_footer(); ?>
 
+    <?php
+      if ( current_user_can( 'administrator' ) && ENVIRONMENT == 'development' ) {
+        global $wpdb;
+        echo "<pre>";
+        print_r( $wpdb->queries );
+        echo "</pre>";
+      }
+    ?>
+
   </body>
 </html> 

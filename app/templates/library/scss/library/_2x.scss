@@ -1,7 +1,0 @@
-@mixin image-2x($image, $width: 100%, $height: auto, $fitted: false) {
-  @media #{$retina} {
-    background-image: image-url($image);
-    @include background-size($width $height);
-  }
-
-}

@@ -1,0 +1,129 @@
+<% if (fontfaceStyles) { %>@font-face {
+        font-family:"<%= fontBaseName %>";<% if (fontSrc1) { %>
+        src:<%= fontSrc1 %>;<% }%>
+        src:<%= fontSrc2 %>;
+        font-weight:normal;
+        font-style:normal;
+}
+<% } %>
+
+[data-icon] {
+  vertical-align: middle;
+
+  &::before,
+  &::after {
+    display: inline-block;
+    font-family: "<%= fontBaseName %>"; 
+    font-size: 16px;
+    font-weight: normal !important;
+    line-height: 1em !important;
+    padding-right: .5em;
+    speak: none; 
+    text-indent: 0;
+    text-transform: none !important;
+    vertical-align: text-bottom;
+    -webkit-font-smoothing: antialiased;
+    @include text-shadow(none);
+  }
+
+  &[data-icon-position="after"]{
+    &::before {
+      content: "" !important;
+    }
+
+    &::after {
+      padding-left: .5em;
+      padding-right: 0;
+    }
+  }
+
+  &.translucent {
+    &::after, &::before {
+      @include opacity(0.6);
+    }
+  }
+
+  &.standalone {
+    &:before {
+      padding-right: 0;
+      vertical-align: middle;
+
+      .ie9 &,
+      .lt-ie9 & {
+        vertical-align: text-bottom;
+      }
+    }
+  }
+
+  &.disc {
+    background-color: lighten($contrast-color, 12%);
+    display: inline-block;
+    height: 1.8em;
+    position: relative;
+    width: 1.8em;
+    @include border-radius(20px);
+    @include transform(scale(1) translateZ(0));
+
+    &.small-disc {
+      height: 1.5em;
+      width: 1.5em;
+
+      &::before {
+        line-height: 1.5em !important;
+      }
+    }
+
+    &.chart-help-disc {
+      height: 18px;
+      width: 18px;
+
+      &::before {
+        line-height: 18px !important;
+        font-size: 10px;
+      }
+    }
+
+    &.contrasted {
+      background: #fff;
+    }
+
+    &.large-disc {
+      height: 2.25em;
+      margin-left: .3em;
+      width: 2.25em;
+
+      &::before {
+        font-size: 1.25em;
+        line-height: 1.8em !important;
+      }
+    }
+
+    &::before {
+      left: 0;
+      font-size: 1em;
+      position: absolute;
+      line-height: 1.8em !important;
+      right: 0;
+      text-align: center;
+    }
+  }
+}
+
+a[data-icon].disc:hover {
+  @include transform( scale(.9,.9) );
+}
+
+
+<% if (iconsStyles) { %>/* Icons */<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
+[data-icon="<%= glyphs[glyphIdx] %>"] {
+  &::before {
+    content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
+  }
+
+  &[data-icon-position="after"] {
+    &::after {
+      content:"<% if (addLigatures) { %><%= glyphs[glyphIdx] %><% } else { %>\<%= (61696+glyphIdx).toString(16) %><% } %>";
+    }
+  }
+}<%  } } %>
+
