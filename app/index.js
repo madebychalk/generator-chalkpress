@@ -33,12 +33,17 @@ ChalkpressGenerator.prototype.askFor = function askFor() {
       name: 'wordpressVersion',
       message: 'What version of Wordpress would you like?',
       default: '3.8.1'
+    },{
+      name: 'chalkpressVersion',
+      message: 'What version of Chalkpress would you like?',
+      default: 'v0.0.2'
     }
   ];
 
   this.prompt(prompts, function (props) {
     this.blogName = props.blogName;
     this.wordpressVersion = props.wordpressVersion;
+    this.chalkpressVersion = props.chalkpressVersion;
 
     done();
   }.bind(this));
@@ -97,7 +102,7 @@ ChalkpressGenerator.prototype.addWorpressSubmodule = function() {
       process.chdir('wordpress');
       console.log('Checking out %s branch of Wordpress', this.wordpressVersion);
 
-      var checkout = spawn('git', ['checkout', this.wordpressVersion])
+      var checkout = spawn('git', ['checkout', this.wordpressVersion]);
       
       checkout.stdout.on('data', function(data) {
         console.log(data);
@@ -115,24 +120,43 @@ ChalkpressGenerator.prototype.addWorpressSubmodule = function() {
   });
 }
 
-ChalkpressGenerator.prototype.addCustomMetaBoxSubmodule = function() {
-  var done = this.async();
-
-  console.log('Initializing Metabox submodule. This may take a minute.');
-  spawn('git', ['submodule', 'add', 'git://github.com/jaredatch/Custom-Metaboxes-and-Fields-for-WordPress.git', 'content/themes/' + _.str.slugify(this.blogName) + '/library/metabox'])
-    .on('close', function() {
-      console.log('Metabox in the house.');
-      done();
-    });
-}
 
 ChalkpressGenerator.prototype.addChalkpressSubmodule = function() {
-  var done = this.async();
+  var done    = this.async(),
+      cp_dir  = 'content/themes/' + _.str.slugify(this.blogName) + '/library/chalkpress';
 
   console.log('Initializing Chalkpress submodule. This may take a minute.');
-  spawn('git', ['submodule', 'add', 'git://github.com/madebychalk/Chalkpress.git', 'content/themes/' + _.str.slugify(this.blogName) + '/library/chalkpress'])
-    .on('close', function() {
-      console.log('Chalkpress In Da House!');
-      done();
+  var git = spawn('git', ['submodule', 'add', 'git://github.com/madebychalk/Chalkpress.git', cp_dir],
+      { stdio: 'inherit' });
+
+  git.on('close', function() {
+    process.chdir(cp_dir);
+    console.log('Checking out %s branch of Chalkpress', this.chalkpressVersion);
+
+    var checkout = spawn('git', ['checkout', this.chalkpressVersion])
+
+    checkout.stdout.on('data', function(data) {
+      console.log(data);
     });
+
+    checkout.on('close', function() {
+      console.log('Initializing Metabox submodule. This may take a minute.');
+      process.chdir('vendor/metabox');
+
+      var init = spawn('git', ['submodule', 'init']);
+      init.on('close', function() {
+      
+        var update = spawn('git', ['submodule', 'update'])
+        update.on('close', function() {
+          process.chdir('../../../../../../');
+          done();
+        });
+      });
+    });
+
+  }.bind(this));
+
+  process.stdout.on('data', function(data) {
+    console.log(data);
+  });
 }
